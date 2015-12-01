@@ -19,7 +19,6 @@ public class App extends ApplicationAdapter {
     private GameStateManager stateMgr;
     private SpriteBatch batch;
     private FontCache fonts;
-    private ComponentList componentList;
     private Rig rig;
 
     public static void log(String message) {
@@ -57,27 +56,26 @@ public class App extends ApplicationAdapter {
 
         Formatter.init();
 
-        componentList = new ComponentList();
-
         // Tier 0
         for (int type = 0; type < Component.TYPE_COUNT; ++type) {
-            componentList.add(new Component(type, 0, "None", 0.0));
+            Component.list.add(new Component(type, 0, "None", 0.0));
         }
 
         // Tier 1
-        componentList.add(new Mainboard(1, "Breadboard", 1.0));
-        componentList.add(new Processor(1, "Intel 4004", 1.0));
-        componentList.add(new Memory(1, "Punchcard", 1.0));
-        componentList.add(new GraphicsCard(1, "Monochrome Adapter", 1.0));
-        componentList.add(new StorageDevice(1, "Punchcard", 1.0));
-        componentList.add(new Keyboard(1, "Wired Typewriter", 1.0));
-        componentList.add(new Mouse(1, "Engelbart Mouse", 1.0));
-        componentList.add(new DisplayDevice(1, "Oscilloscope", 1.0));
-        componentList.add(new AudioDevice(1, "Horn", 1.0));
-        componentList.add(new Workplace(1, "Floor", 1.0));
+        Component.list.add(new Mainboard(1, "Breadboard", 1.0));
+        Component.list.add(new Processor(1, "Intel 4004", 1.0));
+        Component.list.add(new Memory(1, "Punchcard", 1.0));
+        Component.list.add(new GPU(1, "Monochrome Adapter", 1.0));
+        Component.list.add(new Display(1, "Oscilloscope", 1.0));
+        Component.list.add(new PSU(1, "Potato", 1.0));
+        Component.list.add(new Cooler(1, "Lead Block", 1.0));
+        Component.list.add(new Fan(1, "Waving Hands", 1.0));
+        Component.list.add(new Keyboard(1, "Typewriter", 1.0));
+        Component.list.add(new Mouse(1, "Engelbart Rodent", 1.0));
+
 
         // Init player rig.
-        rig = new Rig(componentList);
+        rig = new Rig();
 
         // Init game state manager.
         stateMgr = new GameStateManager(this);
@@ -113,10 +111,6 @@ public class App extends ApplicationAdapter {
 
     public Rig getRig() {
         return rig;
-    }
-
-    public ComponentList getComponentList() {
-        return componentList;
     }
 
     public FontCache getFontCache() {

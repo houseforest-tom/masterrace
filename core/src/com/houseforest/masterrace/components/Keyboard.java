@@ -17,9 +17,14 @@ public class Keyboard extends Component {
     }
 
     @Override
-    public String constructDisplayString() {
+    public double calculateMetric(double performance) {
         double slowdown = 1E3;
-        double latency = 0.01E-24 + (60 - 0.01E-24) * Math.exp((1 - getRank()) / slowdown);
-        return "Latency: " + Formatter.formatUnit(latency, "s");
+        double latency = 0.01E-24 + (60 - 0.01E-24) * Math.exp((1 - performance) / slowdown);
+        return latency;
+    }
+
+    @Override
+    public String constructDisplayString() {
+        return "Latency: " + Formatter.formatUnit(calculateMetric(getPerformance()), "s");
     }
 }

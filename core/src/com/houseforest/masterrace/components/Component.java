@@ -5,31 +5,38 @@ package com.houseforest.masterrace.components;
  */
 public class Component {
 
+    public static int TYPE_COUNT = 0;
     public static final int
-            MAINBOARD = 0,
-            PROCESSOR = 1,
-            MEMORY = 2,
-            GRAPHICS = 3,
-            STORAGE = 4,
-            KEYBOARD = 5,
-            MOUSE = 6,
-            DISPLAY = 7,
-            AUDIO = 8,
-            WORKPLACE = 9,
-            TYPE_COUNT = 10;
+            MAINBOARD = TYPE_COUNT++,   // Stability [%]
+            CPU = TYPE_COUNT++,         // Frequency [Hz]
+            RAM = TYPE_COUNT++,         // Size [B]
+            GPU = TYPE_COUNT++,         // Frequency [Hz]
+            DISPLAY = TYPE_COUNT++,     // Resolution [px]
+            PSU = TYPE_COUNT++,         // Max. Draw [W]
+            COOLER = TYPE_COUNT++,      // Temperature [°C]
+            FAN = TYPE_COUNT++,         // Speed [RPM]
+            KEYBOARD = TYPE_COUNT++,    // Input Latency [s]
+            MOUSE = TYPE_COUNT++;       // Precision [dpi]
+
+    // Maximum component rank.
+    // The component's performance will reach that of its successor at this rank.
+    public static final int MAX_RANK = 65535;
 
     public static final String[] names = new String[]{
             "Mainboard",
             "Processor",
             "Memory",
             "Graphics Card",
-            "Storage Device",
-            "Keyboard",
-            "Mouse",
             "Display",
-            "Audio Device",
-            "Workplace"
+            "Power Supply",
+            "Cooler",
+            "Fan",
+            "Keyboard",
+            "Mouse"
     };
+
+    // Global component list.
+    public static final ComponentList list = new ComponentList();
 
     // Type of this component.
     private int type;
@@ -40,8 +47,8 @@ public class Component {
     // Name of the component.
     private String name;
 
-    // Performance index.
-    private double performance;
+    // Base performance indicator.
+    private double basePerformance;
 
     // Improvement rank.
     private int rank;
@@ -51,7 +58,7 @@ public class Component {
         this.type = type;
         this.level = level;
         this.name = name;
-        this.performance = performance;
+        this.basePerformance = performance;
         this.rank = 1;
     }
 
@@ -67,8 +74,29 @@ public class Component {
         return name;
     }
 
+    public double getBasePerformance() {
+        return basePerformance;
+    }
+
+    /**
+     * Calculates the component's performance taking into respect its current rank.
+     *
+     * @return Component performance.
+     */
     public double getPerformance() {
-        return performance;
+
+        // If best component available -> max performance := 2 x base.
+        double max = 2.0 * basePerformance;
+
+        // Else max performance := upgrade's base performance.
+        if (list.exists(type, level + 1)) {
+            max = list.get(type, level + 1).getBasePerformance();
+        }
+
+        double delta = max - basePerformance;
+
+        // Interpolate linearly between base and max performance.
+        return basePerformance + (double) (rank - 1) / (double) MAX_RANK * delta;
     }
 
     public int getRank() {
@@ -79,9 +107,13 @@ public class Component {
         this.rank = rank;
     }
 
+    public double calculateMetric(double performance) {
+        return performance;
+    }
+
     @Override
     public Component clone() {
-        return new Component(type, level, name, performance);
+        return new Component(type, level, name, basePerformance);
     }
 
     public String constructDisplayString() {

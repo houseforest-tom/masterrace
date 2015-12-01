@@ -49,7 +49,7 @@ public class MainState extends GameState {
                 if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
                     upgradeComponent(type);
                 } else {
-                    improveComponent(type, 100);
+                    increaseComponentRank(type, 1000);
                 }
             }
         }
@@ -112,13 +112,15 @@ public class MainState extends GameState {
     // ===========================================================
 
     private void upgradeComponent(int type) {
-        if (app.getComponentList().exists(type, app.getRig().getComponent(type).getLevel() + 1)) {
+        if (Component.list.exists(type, app.getRig().getComponent(type).getLevel() + 1)) {
             app.getRig().upgrade(type);
         }
     }
 
-    private void improveComponent(int type, int amount) {
+    private void increaseComponentRank(int type, int amount) {
         Component component = app.getRig().getComponent(type);
+        if (component.getLevel() == 0) return;
+        amount = Math.min(amount, Component.MAX_RANK - component.getRank());
         component.setRank(component.getRank() + amount);
     }
 

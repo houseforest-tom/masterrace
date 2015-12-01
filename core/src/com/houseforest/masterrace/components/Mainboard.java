@@ -15,9 +15,14 @@ public class Mainboard extends Component {
     }
 
     @Override
-    public String constructDisplayString() {
+    public double calculateMetric(double performance) {
         double slowdown = 1E3;
-        double stability = 100 * (1.0 - Math.exp((1-getRank()) / slowdown));
-        return "Stability: " + String.format("%.4f", stability) + "%";
+        double stability = 100 * (1.0 - Math.exp((1 - performance) / slowdown));
+        return stability;
+    }
+
+    @Override
+    public String constructDisplayString() {
+        return "Stability: " + String.format("%.4f", calculateMetric(getPerformance())) + "%";
     }
 }

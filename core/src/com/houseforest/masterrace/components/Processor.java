@@ -8,7 +8,7 @@ import com.houseforest.masterrace.core.Formatter;
 public class Processor extends Component {
 
     public Processor(int level, String name, double performance) {
-        super(Component.PROCESSOR, level, name, performance);
+        super(Component.CPU, level, name, performance);
     }
 
     @Override
@@ -18,6 +18,6 @@ public class Processor extends Component {
 
     @Override
     public String constructDisplayString() {
-        return "Overclock: " + Formatter.formatUnit(getRank(), "Hz");
+        return "Clock Frequency: " + Formatter.formatUnit(calculateMetric(getPerformance()), "Hz");
     }
 }

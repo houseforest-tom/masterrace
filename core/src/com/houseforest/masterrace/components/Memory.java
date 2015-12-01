@@ -8,7 +8,7 @@ import com.houseforest.masterrace.core.Formatter;
 public class Memory extends Component {
 
     public Memory(int level, String name, double performance) {
-        super(Component.MEMORY, level, name, performance);
+        super(Component.RAM, level, name, performance);
     }
 
     @Override
@@ -18,6 +18,7 @@ public class Memory extends Component {
 
     @Override
     public String constructDisplayString() {
-        return "Size: " + Formatter.formatUnit(getRank(), "B");
+        String fmt = Formatter.formatUnit(calculateMetric(getPerformance()), "B");
+        return "Size: " + fmt;
     }
 }

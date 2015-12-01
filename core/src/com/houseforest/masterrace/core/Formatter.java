@@ -11,7 +11,7 @@ public class Formatter {
 
     public static void init() {
         unitPrefixes = new HashMap<Integer, String>();
-        unitPrefixes.put(-25, "y");
+        unitPrefixes.put(-24, "y");
         unitPrefixes.put(-21, "z");
         unitPrefixes.put(-18, "a");
         unitPrefixes.put(-15, "f");
@@ -32,18 +32,17 @@ public class Formatter {
 
     public static String formatUnit(double value, String unit) {
 
-        String valstr = String.format("%.2f", value);
         int order = 0;
 
-        while (value <= 1E-3) {
+        while (value <= 1E-3 && order > -24) {
             value *= 1E3;
             order -= 3;
         }
-        while (value >= 1E3) {
+        while (value >= 1E3 && order < 24) {
             value /= 1E3;
             order += 3;
         }
-
-        return valstr + unitPrefixes.get(Math.max(-24, Math.min(order, 24))) + unit;
+        
+        return String.format("%.2f", value) + unitPrefixes.get(Math.max(-24, Math.min(order, 24))) + unit;
     }
 }

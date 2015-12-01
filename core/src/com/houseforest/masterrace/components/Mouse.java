@@ -18,6 +18,6 @@ public class Mouse extends Component {
 
     @Override
     public String constructDisplayString() {
-        return "Precision: " + Formatter.formatUnit(getRank(), "dpi");
+        return "Precision: " + Formatter.formatUnit(calculateMetric(getPerformance()), "dpi");
     }
 }
