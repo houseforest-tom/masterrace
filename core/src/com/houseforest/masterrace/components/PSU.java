@@ -7,17 +7,20 @@ import com.houseforest.masterrace.core.Formatter;
  */
 public class PSU extends Component {
 
-    public PSU(int level, String name, double performance) {
-        super(Component.PSU, level, name, performance);
+    private long power;
+
+    public PSU(long power) {
+        super(Component.PSU);
+        this.power = power;
     }
 
     @Override
-    public com.houseforest.masterrace.components.PSU clone() {
-        return new PSU(getLevel(), getName(), getPerformance());
+    public PSU clone() {
+        return new PSU(power);
     }
 
     @Override
     public String constructDisplayString() {
-        return "Max. Draw: " + Formatter.formatUnit(calculateMetric(getPerformance()), "W");
+        return "Max. Draw: " + Formatter.formatUnit(power, "W");
     }
 }

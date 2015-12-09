@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.houseforest.masterrace.components.*;
 import com.houseforest.masterrace.core.Formatter;
 import com.houseforest.masterrace.core.Rig;
 import com.houseforest.masterrace.resources.FontCache;
@@ -55,24 +54,6 @@ public class App extends ApplicationAdapter {
         }));
 
         Formatter.init();
-
-        // Tier 0
-        for (int type = 0; type < Component.TYPE_COUNT; ++type) {
-            Component.list.add(new Component(type, 0, "None", 0.0));
-        }
-
-        // Tier 1
-        Component.list.add(new Mainboard(1, "Breadboard", 1.0));
-        Component.list.add(new Processor(1, "Intel 4004", 1.0));
-        Component.list.add(new Memory(1, "Punchcard", 1.0));
-        Component.list.add(new GPU(1, "Monochrome Adapter", 1.0));
-        Component.list.add(new Display(1, "Oscilloscope", 1.0));
-        Component.list.add(new PSU(1, "Potato", 1.0));
-        Component.list.add(new Cooler(1, "Lead Block", 1.0));
-        Component.list.add(new Fan(1, "Waving Hands", 1.0));
-        Component.list.add(new Keyboard(1, "Typewriter", 1.0));
-        Component.list.add(new Mouse(1, "Engelbart Rodent", 1.0));
-
 
         // Init player rig.
         rig = new Rig();

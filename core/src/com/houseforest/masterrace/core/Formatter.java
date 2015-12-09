@@ -32,6 +32,12 @@ public class Formatter {
 
     public static String formatUnit(double value, String unit) {
 
+        // Early out in case of value being zero.
+        // => Avoid '0.00 yotta $unit' instead of '0.00 $unit'.
+        if(value == 0.0){
+            return String.format("%.2f", value) + unit;
+        }
+
         int order = 0;
 
         while (value <= 1E-3 && order > -24) {

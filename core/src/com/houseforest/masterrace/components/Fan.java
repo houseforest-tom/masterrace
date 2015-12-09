@@ -7,17 +7,21 @@ import com.houseforest.masterrace.core.Formatter;
  */
 public class Fan extends Component {
 
-    public Fan(int level, String name, double performance) {
-        super(Component.FAN, level, name, performance);
+    // Fan RPM.
+    private double rpm;
+
+    public Fan(double rpm) {
+        super(Component.FAN);
+        this.rpm = rpm;
     }
 
     @Override
     public Fan clone() {
-        return new Fan(getLevel(), getName(), getPerformance());
+        return new Fan(rpm);
     }
 
     @Override
     public String constructDisplayString() {
-        return "Speed: " + Formatter.formatUnit(calculateMetric(getPerformance()), "RPM");
+        return "Speed: " + Formatter.formatUnit(rpm, "RPM");
     }
 }

@@ -1,6 +1,6 @@
 package com.houseforest.masterrace.core;
 
-import com.houseforest.masterrace.components.Component;
+import com.houseforest.masterrace.components.*;
 
 /**
  * Created by Tom on 30.11.2015.
@@ -15,10 +15,13 @@ public class Rig {
     // Creates a new rig consisting of the most basic components.
     public Rig() {
         this.components = new Component[Component.TYPE_COUNT];
-
-        for (int type = 0; type < Component.TYPE_COUNT; ++type) {
-            components[type] = Component.list.get(type, 0).clone();
-        }
+        this.components[Component.MAINBOARD] = new Mainboard(0.0001);
+        this.components[Component.CPU] = new Processor(1L, 1.0, 0L);
+        this.components[Component.RAM] = new Memory(1L, 1.0, 99L);
+        this.components[Component.GPU] = new GPU(1L, 1.0, 1L);
+        this.components[Component.PSU] = new PSU(1L);
+        this.components[Component.FAN] = new Fan(1.0);
+        this.components[Component.DISPLAY] = new Display(16L * 9L, 1.0, 0.01);
     }
 
     public Component getComponent(int type) {
@@ -27,19 +30,5 @@ public class Rig {
 
     public Component[] getComponents() {
         return components;
-    }
-
-    // Upgrade component by one level.
-    public void upgrade(int type) {
-        upgrade(type, components[type].getLevel() + 1);
-    }
-
-    // Upgrade component up to specified level.
-    public void upgrade(int type, int targetLevel) {
-        try {
-            components[type] = Component.list.get(type, targetLevel).clone();
-        } catch (Exception e) {
-            System.err.println(Component.names[type] + " of level " + targetLevel + " does not exist!");
-        }
     }
 }

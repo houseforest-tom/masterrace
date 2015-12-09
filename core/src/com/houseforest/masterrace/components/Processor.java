@@ -7,17 +7,45 @@ import com.houseforest.masterrace.core.Formatter;
  */
 public class Processor extends Component {
 
-    public Processor(int level, String name, double performance) {
-        super(Component.CPU, level, name, performance);
+    // Core count.
+    private long cores;
+
+    // Frequency.
+    private double freq;
+
+    // Cache size in bytes.
+    private long cache;
+
+    public Processor(long cores, double freq, long cache) {
+        super(Component.CPU);
+        this.freq = freq;
+        this.cores = cores;
+        this.cache = cache;
+    }
+
+    public double getFrequency() {
+        return freq;
+    }
+
+    public long getCoreCount() {
+        return cores;
+    }
+
+    public long getCacheSize() {
+        return cache;
     }
 
     @Override
     public Processor clone() {
-        return new Processor(getLevel(), getName(), getPerformance());
+        return new Processor(cores, freq, cache);
     }
 
     @Override
     public String constructDisplayString() {
-        return "Clock Frequency: " + Formatter.formatUnit(calculateMetric(getPerformance()), "Hz");
+        String str = "";
+        str += "Cores: " + cores + "\n";
+        str += "Frequency: " + Formatter.formatUnit(freq, "Hz") + "\n";
+        str += "Cache: " + Formatter.formatUnit(cache, "B");
+        return str;
     }
 }

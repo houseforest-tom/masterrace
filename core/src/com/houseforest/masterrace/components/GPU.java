@@ -7,17 +7,33 @@ import com.houseforest.masterrace.core.Formatter;
  */
 public class GPU extends Component {
 
-    public GPU(int level, String name, double performance) {
-        super(Component.GPU, level, name, performance);
+    // Video memory.
+    private long vram;
+
+    // Fillrate.
+    private double fillrate;
+
+    // Number of shader units.
+    private long shaderUnits;
+
+    public GPU(long vram, double fillrate, long shaderUnits) {
+        super(Component.GPU);
+        this.vram = vram;
+        this.fillrate = fillrate;
+        this.shaderUnits = shaderUnits;
     }
 
     @Override
     public com.houseforest.masterrace.components.GPU clone() {
-        return new GPU(getLevel(), getName(), getPerformance());
+        return new GPU(vram, fillrate, shaderUnits);
     }
 
     @Override
     public String constructDisplayString() {
-        return "Core Clock: " + Formatter.formatUnit(calculateMetric(getPerformance()), "Hz");
+        String str = "";
+        str += "VRAM: " + Formatter.formatUnit(vram, "B") + "\n";
+        str += "Fillrate: " + Formatter.formatUnit(fillrate, "p/s") + "\n";
+        str += "Shader Units: " + shaderUnits;
+        return str;
     }
 }
