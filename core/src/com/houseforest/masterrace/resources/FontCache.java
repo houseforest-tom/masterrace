@@ -82,10 +82,19 @@ public class FontCache {
     }
 
     public void addFont(String fontName, BitmapFont font) {
-
         fonts.put(fontName, font);
         if (defaultFontName == null || defaultFontName.isEmpty()) {
             defaultFontName = fontName;
+        }
+    }
+
+    // Dispose generators and fonts.
+    public void dispose(){
+        for(HashMap.Entry<String, FreeTypeFontGenerator> generator : generators.entrySet()){
+            generator.getValue().dispose();
+        }
+        for(HashMap.Entry<String, BitmapFont> font : fonts.entrySet()){
+            font.getValue().dispose();
         }
     }
 

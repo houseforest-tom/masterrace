@@ -9,6 +9,7 @@ import com.houseforest.masterrace.App;
 import com.houseforest.masterrace.core.GameObject;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * TODO: Add type documentation here.
@@ -87,6 +88,13 @@ public class GameStateManager extends GameObject {
     private void createStates() {
         addState(new MainState(this));
         setCurrentState(GameState.Id.Main);
+    }
+
+    // Dispose all scenes.
+    public void dispose(){
+        for(HashMap.Entry<GameState.Id, GameState> state : states.entrySet()){
+            state.getValue().dispose();
+        }
     }
 
     // ===========================================================

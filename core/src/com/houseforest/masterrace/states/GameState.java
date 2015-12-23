@@ -46,7 +46,8 @@ public abstract class GameState extends GameObject {
     // Methods
     // ===========================================================
 
-    ;;
+    public void dispose() {
+    }
 
     // ===========================================================
     // Inner and Anonymous Classes

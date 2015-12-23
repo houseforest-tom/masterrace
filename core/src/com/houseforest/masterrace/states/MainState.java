@@ -2,8 +2,12 @@ package com.houseforest.masterrace.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.Logger;
+import com.houseforest.masterrace.App;
 import com.houseforest.masterrace.components.Component;
 
 /**
@@ -21,7 +25,7 @@ public class MainState extends GameState {
     // Fields
     // ===========================================================
 
-    ;;
+    private Sprite[] componentSprites;
 
     // ===========================================================
     // Constructors
@@ -29,6 +33,24 @@ public class MainState extends GameState {
 
     public MainState(GameStateManager mgr) {
         super(mgr, GameState.Id.Main);
+        if (componentSprites == null) {
+            componentSprites = new Sprite[Component.TYPE_COUNT];
+            for (int i = 0; i < componentSprites.length; ++i) {
+                componentSprites[i] = new Sprite(
+                        new Texture(
+                                Gdx.files.internal(
+                                        "textures/components/" + i + ".png"
+                                )
+                        )
+                );
+                componentSprites[i].setSize(230, 230);
+                componentSprites[i].setCenter(
+                        App.width / 2 - 240,
+                        App.height - (320 + i * 316)
+                );
+                App.log("Loaded component sprite #" + i);
+            }
+        }
     }
 
     // ===========================================================
@@ -54,30 +76,34 @@ public class MainState extends GameState {
         Component[] components = app.getRig().getComponents();
         Component c;
 
-        float x, y;
-        float dx = 24, dy = bold.getCapHeight() + 8;
-
         for (int type = 0; type < Component.TYPE_COUNT; ++type) {
 
             c = components[type];
-            x = (float) (Gdx.graphics.getWidth() * 0.3);
-            y = (float) (Gdx.graphics.getHeight() * (1 - (0.05 + 0.95 / Component.TYPE_COUNT * type)));
+
+            componentSprites[type].draw(batch);
 
             // Component type (heading).
             bold.draw(
                     batch,
                     Component.names[type],
-                    x,
-                    y
+                    App.width / 2,
+                    App.height - (230 + type * 316)
             );
 
             // Component specific characteristics.
             font.draw(
                     batch,
                     c.constructDisplayString(),
-                    x + dx,
-                    y -= dy
+                    App.width / 2 + 24,
+                    App.height - (290 + type * 316)
             );
+        }
+    }
+
+    @Override
+    public void dispose() {
+        for (Sprite componentSprite : componentSprites) {
+            componentSprite.getTexture().dispose();
         }
     }
 
