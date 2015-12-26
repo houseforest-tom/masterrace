@@ -15,9 +15,9 @@ public class Component {
             CPU = TYPE_COUNT++,         // Frequency [Hz]
             RAM = TYPE_COUNT++,         // Size [B]
             GPU = TYPE_COUNT++,         // Frequency [Hz]
+            FAN = TYPE_COUNT++,         // Speed [RPM]
             DISPLAY = TYPE_COUNT++,     // Resolution [px]
-            PSU = TYPE_COUNT++,         // Max. Draw [W]
-            FAN = TYPE_COUNT++;         // Speed [RPM]
+            PSU = TYPE_COUNT++;         // Max. Draw [W]
 
     // Maximum component rank.
     // The component's performance will reach that of its successor at this rank.
@@ -28,9 +28,9 @@ public class Component {
             "Processor",
             "Memory",
             "Graphics Card",
+            "Cooling Fan",
             "Display",
-            "Power Supply",
-            "Fan",
+            "Power Supply"
     };
 
     // Type of this component.

@@ -5,7 +5,7 @@ import com.houseforest.masterrace.core.Formatter;
 /**
  * Created by Tom on 30.11.2015.
  */
-public class Display extends Component {
+public class Display extends PoweredComponent {
 
     // Pixel count.
     private long pixels;
@@ -13,14 +13,10 @@ public class Display extends Component {
     // Refresh rate.
     private double hz;
 
-    // Screen diagonal.
-    private double diagonal;
-
-    public Display(long pixels, double hz, double diagonal) {
-        super(Component.DISPLAY);
+    public Display(long pixels, double hz, double powerConsumption) {
+        super(Component.DISPLAY, powerConsumption);
         this.pixels = pixels;
         this.hz = hz;
-        this.diagonal = diagonal;
     }
 
     public long getPixels() {
@@ -31,21 +27,17 @@ public class Display extends Component {
         return hz;
     }
 
-    public double getScreenDiagonal() {
-        return diagonal;
-    }
-
     @Override
     public Display clone() {
-        return new Display(pixels, hz, diagonal);
+        return new Display(pixels, hz, getPowerConsumption());
     }
 
     @Override
     public String constructDisplayString() {
         String str = "";
-        str += "Resolution: " + (long) Math.ceil(pixels / 9.0) + "x" + (long) Math.ceil(pixels / 16.0) + "p\n";
+        str += "Resolution: " + (long) Math.ceil(pixels / 9.0) + "x" + (long) Math.ceil(pixels / 16.0) + " Pixels\n";
         str += "Refresh Rate: " + Formatter.formatUnit(hz, "Hz") + "\n";
-        str += "Screen Diagonal: " + Formatter.formatUnit(diagonal, "m");
+        str += constructPowerConsumptionString();
         return str;
     }
 }

@@ -35,7 +35,7 @@ public class Formatter {
         // Early out in case of value being zero.
         // => Avoid '0.00 yotta $unit' instead of '0.00 $unit'.
         if(value == 0.0){
-            return String.format("%.2f", value) + unit;
+            return String.format("%.2f", value) + " " + unit;
         }
 
         int order = 0;
@@ -49,6 +49,10 @@ public class Formatter {
             order += 3;
         }
         
-        return String.format("%.2f", value) + unitPrefixes.get(Math.max(-24, Math.min(order, 24))) + unit;
+        return String.format("%.2f", value) + " " + unitPrefixes.get(Math.max(-24, Math.min(order, 24))) + unit;
+    }
+
+    public static String formatPercentage(double value){
+        return String.format("%.2f%%", value * 100);
     }
 }

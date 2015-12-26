@@ -45,7 +45,7 @@ public class MainState extends GameState {
                 );
                 componentSprites[i].setSize(230, 230);
                 componentSprites[i].setCenter(
-                        App.width / 2 - 240,
+                        App.width / 2 - 360,
                         App.height - (320 + i * 316)
                 );
                 App.log("Loaded component sprite #" + i);
@@ -76,6 +76,9 @@ public class MainState extends GameState {
         Component[] components = app.getRig().getComponents();
         Component c;
 
+        float nameTextX = App.width / 2 - 120;
+        float featuresTextX = nameTextX + 32;
+
         for (int type = 0; type < Component.TYPE_COUNT; ++type) {
 
             c = components[type];
@@ -86,16 +89,16 @@ public class MainState extends GameState {
             bold.draw(
                     batch,
                     Component.names[type],
-                    App.width / 2,
-                    App.height - (230 + type * 316)
+                    nameTextX,
+                    App.height - (192 + type * 316)
             );
 
             // Component specific characteristics.
             font.draw(
                     batch,
                     c.constructDisplayString(),
-                    App.width / 2 + 24,
-                    App.height - (290 + type * 316)
+                    featuresTextX,
+                    App.height - (256 + type * 316)
             );
         }
     }

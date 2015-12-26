@@ -5,7 +5,7 @@ import com.houseforest.masterrace.core.Formatter;
 /**
  * Created by Tom on 30.11.2015.
  */
-public class Processor extends Component {
+public class Processor extends PoweredComponent {
 
     // Core count.
     private long cores;
@@ -14,13 +14,12 @@ public class Processor extends Component {
     private double freq;
 
     // Cache size in bytes.
-    private long cache;
+    // private long cache;
 
-    public Processor(long cores, double freq, long cache) {
-        super(Component.CPU);
+    public Processor(long cores, double freq, double powerConsumption) {
+        super(Component.CPU, powerConsumption);
         this.freq = freq;
         this.cores = cores;
-        this.cache = cache;
     }
 
     public double getFrequency() {
@@ -31,13 +30,9 @@ public class Processor extends Component {
         return cores;
     }
 
-    public long getCacheSize() {
-        return cache;
-    }
-
     @Override
     public Processor clone() {
-        return new Processor(cores, freq, cache);
+        return new Processor(cores, freq, getPowerConsumption());
     }
 
     @Override
@@ -45,7 +40,7 @@ public class Processor extends Component {
         String str = "";
         str += "Cores: " + cores + "\n";
         str += "Frequency: " + Formatter.formatUnit(freq, "Hz") + "\n";
-        str += "Cache: " + Formatter.formatUnit(cache, "B");
+        str += constructPowerConsumptionString();
         return str;
     }
 }

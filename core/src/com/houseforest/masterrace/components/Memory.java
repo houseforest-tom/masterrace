@@ -5,7 +5,7 @@ import com.houseforest.masterrace.core.Formatter;
 /**
  * Created by Tom on 30.11.2015.
  */
-public class Memory extends Component {
+public class Memory extends PoweredComponent {
 
     // Size in bytes.
     private long capacity;
@@ -13,14 +13,10 @@ public class Memory extends Component {
     // Memory frequency.
     private double freq;
 
-    // CAS latency.
-    private long cl;
-
-    public Memory(long capacity, double freq, long cl) {
-        super(Component.RAM);
+    public Memory(long capacity, double freq, double powerConsumption) {
+        super(Component.RAM, powerConsumption);
         this.capacity = capacity;
         this.freq = freq;
-        this.cl = cl;
     }
 
     public long getCapacity(){
@@ -31,13 +27,9 @@ public class Memory extends Component {
         return freq;
     }
 
-    public long getLatency(){
-        return cl;
-    }
-
     @Override
     public Memory clone() {
-        return new Memory(capacity, freq, cl);
+        return new Memory(capacity, freq, getPowerConsumption());
     }
 
     @Override
@@ -45,7 +37,7 @@ public class Memory extends Component {
         String str = "";
         str += "Capacity: " + Formatter.formatUnit(capacity, "B") + "\n";
         str += "Frequency: " + Formatter.formatUnit(freq, "Hz") + "\n";
-        str += "Latency: CL" + cl;
+        str += constructPowerConsumptionString();
         return str;
     }
 }

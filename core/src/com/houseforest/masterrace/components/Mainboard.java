@@ -1,28 +1,53 @@
 package com.houseforest.masterrace.components;
 
+import com.houseforest.masterrace.core.Formatter;
+
+import java.text.Normalizer;
+
 /**
  * Created by Tom on 30.11.2015.
  */
-public class Mainboard extends Component {
+public class Mainboard extends PoweredComponent {
 
-    // Mainboard stability percentage.
-    private double stability;
+    // CPU socket version.
+    private long cpuSocketVersion;
 
-    public Mainboard(double stability) {
-        super(Component.MAINBOARD);
+    // Max. RAM capacity.
+    private long maxRam;
+
+    public Mainboard(long socket, long maxRam, double powerConsumption) {
+        super(Component.MAINBOARD, powerConsumption);
+        cpuSocketVersion = socket;
+        this.maxRam = maxRam;
     }
 
-    public double getStability(){
-        return stability;
+   public long getCpuSocketVersion(){
+       return cpuSocketVersion;
+   }
+
+    public void setCpuSocketVersion(long cpuSocketVersion){
+        this.cpuSocketVersion = cpuSocketVersion;
+    }
+
+    public long getMaxRAM(){
+        return maxRam;
+    }
+
+    public void setMaxRAM(long maxRam){
+        this.maxRam = maxRam;
     }
 
     @Override
     public Mainboard clone() {
-        return new Mainboard(stability);
+        return new Mainboard(cpuSocketVersion, maxRam, getPowerConsumption());
     }
 
     @Override
     public String constructDisplayString() {
-        return "Stability: " + String.format("%.4f", stability) + "%";
+        String str = "";
+        str += "CPU Socket Version: " + cpuSocketVersion+ "\n";
+        str += "Max. Memory: " + Formatter.formatUnit(maxRam, "B") + "\n";
+        str += constructPowerConsumptionString();
+        return str;
     }
 }
